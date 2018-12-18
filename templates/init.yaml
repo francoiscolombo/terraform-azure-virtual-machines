@@ -1,0 +1,32 @@
+#cloud-config
+repo_update: true
+repo_upgrade: all
+
+package_upgrade: true
+packages:
+  - python-pip
+  - wget
+  - curl
+  - git
+  - bash
+  - openssh-server
+  - ca-certificates
+  - postfix
+
+groups:
+  - gitlabgrp
+
+users:
+  - name: admgitlab
+    gecos: Admin user
+    homedir: /home/admgitlab
+    primary-group: gitlabgrp
+    groups: adm, dialout, cdrom, floppy, sudo, audio, dip, video, plugdev, netdev, lxd, docker
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh-import-id: None
+    lock_passwd: true
+    ssh-authorized-keys:
+      - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC83IvpDitgpEZ+BdsbOzWPngBBmlZeK2Y6a8wcidmedtf2q3QLq33LF8NHrGVSti/a2TqKBvw+DthAnnpPrjMPz+m+vb1NrzeuONCmpEsJhPIu7GFoVjcNgfMEtlahcCCracAns/pBHa0DEmDUcN1xLi8HKLxWkx8kBmLuv3qe4L82OkmeXDSzUBdfcpXKR/JC6RPxUE5juxuMSmmRh/HVogcH86lT4o1q+4UpvwtrFko+kil+cKppzbJxPO2m6eVLq/ELnemETmRLGLBTkNLKYH642u/5YpYoHcrCd0HcT8JslL+mhhi6ISIJe5uswud+iy7hbfGhicEinV4YNozX admgitlab@keyteoazuregitlab"
+
+output:
+  all: '| tee -a /var/log/cloud-init-output.log'
